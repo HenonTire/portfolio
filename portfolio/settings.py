@@ -12,6 +12,15 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import environ
+import environ
+
+# Initialize environment variables
+env = environ.Env()
+environ.Env.read_env()  # Read environment variables from .env file
+
+# Example: Accessing a variable
+SECRET_KEY = env('DJANGO_SECRET_KEY')
+DEBUG = env.bool('DEBUG', default=False)
 
 # Initialize environ
 env = environ.Env()
