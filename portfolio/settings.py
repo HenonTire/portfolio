@@ -11,6 +11,18 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import environ
+
+# Initialize environ
+env = environ.Env()
+
+# Reading the .env file (if you have one, or from environment variables)
+environ.Env.read_env()
+
+# Configure the database from the DATABASE_URL environment variable
+DATABASES = {
+    'default': env.db(),  # This reads the DATABASE_URL from environment variables
+}
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -125,6 +137,16 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'laba_developers',
+        'USER': 'laba_developers_user',
+        'PASSWORD': 'DMiRoeWwUkXDqdLIeCQy7BXUdUTwDLpd',
+        'HOST': 'dpg-cu8coat2ng1s73ej47ug-a',
+        'PORT': '5432',
+    }
+}
 
 
 # Default primary key field type
