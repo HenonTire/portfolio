@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import environ
 import environ
+import os
+print("PORT:", os.getenv("PORT"))
 
 # Initialize environment variables
 env = environ.Env()
