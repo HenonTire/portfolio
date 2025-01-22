@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-s^byo0-d2w6hl(lm8t_u7fsjn0u$r+r6bfjah=4h4lm9c98v%n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['laba-developers.onrender.com']
+
 
 
 # Application definition
@@ -122,6 +123,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
