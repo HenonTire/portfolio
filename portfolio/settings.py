@@ -15,7 +15,7 @@ SECRET_KEY = env('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=False)
 
-ALLOWED_HOSTS = ['laba-developers.onrender.com']
+ALLOWED_HOSTS = ['https://labas-lh8j.onrender.com']
 
 # Application definition
 INSTALLED_APPS = [
