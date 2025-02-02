@@ -23,7 +23,7 @@ def contact(request):
                     f"new contact form submission from {name}", 
                     f"it's {message}/n you can contact them by {contact} .",  
                     settings.EMAIL_HOST_USER,  
-                    ['henontireso@gmail.com'],  
+                    ['henontireso@gmail.com', 'fasil@gmail.com', ],  
                     fail_silently=False, 
                 )
             meet = Schedule.objects.create(name=name, contact=contact, message=message)

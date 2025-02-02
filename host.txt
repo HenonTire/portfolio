@@ -1,0 +1,35 @@
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+------- 
+static conig 
+
+
+DATABASES = {
+    'default': dj_database_url.config(default=config('DATABASE_URL'))
+}
+ --------
+ database conig
+
+
+
+
+ import os
+from decouple import config
+import dj_database_url
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG', default=False, cast=bool)
+
+ALLOWED_HOSTS = ['your-render-url.onrender.com', 'localhost']
+------ setting.py config
+
+
+
+
+web: gunicorn portfolio.wsgi:application
+--- Procfile
+
