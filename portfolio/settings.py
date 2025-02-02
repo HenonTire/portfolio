@@ -2,24 +2,22 @@ import os
 from pathlib import Path
 import environ
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Initialize environment variables
-env = environ.Env(
-    DEBUG=(bool, False)
-)
-# Read environment variables from .env file in the project root
+env = environ.Env(DEBUG=(bool, False))
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('DJANGO_SECRET_KEY')
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=False)
+ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['https://labas-lh8j.onrender.com']
 
-# Update ALLOWED_HOSTS for Render (do not include "https://")
-ALLOWED_HOSTS = ['labas-lh8j.onrender.com']
+# Database configuration (using DATABASE_URL from .env)
+DATABASES = {
+    'default': env.db('DATABASE_URL')
+}
+
+# ... rest of your settings (static files, email, etc.) ...
 
 # Application definition
 INSTALLED_APPS = [
