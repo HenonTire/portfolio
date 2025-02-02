@@ -9,7 +9,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 SECRET_KEY = env('DJANGO_SECRET_KEY')
 DEBUG = env.bool('DEBUG', default=False)
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['labas-lh8j.onrender.com']
 CSRF_TRUSTED_ORIGINS = ['https://labas-lh8j.onrender.com']
 
 # Database configuration (using DATABASE_URL from .env)
