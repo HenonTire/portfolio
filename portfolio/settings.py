@@ -1,13 +1,16 @@
+import os
 from pathlib import Path
 import environ
-import os
-
-# Initialize environment variables
-env = environ.Env()
-environ.Env.read_env()  # Read environment variables from .env file
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Initialize environment variables
+env = environ.Env(
+    DEBUG=(bool, False)
+)
+# Read environment variables from .env file in the project root
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('DJANGO_SECRET_KEY')
@@ -15,12 +18,13 @@ SECRET_KEY = env('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=False)
 
-ALLOWED_HOSTS = ['https://labas-lh8j.onrender.com']
+# Update ALLOWED_HOSTS for Render (do not include "https://")
+ALLOWED_HOSTS = ['labas-lh8j.onrender.com']
 
 # Application definition
 INSTALLED_APPS = [
     'corsheaders',
-    'base.apps.BaseConfig',
+    'base.apps.BaseConfig',  # Your app
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -32,14 +36,15 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Serve static files with WhiteNoise
+    'corsheaders.middleware.CorsMiddleware',         # Enable CORS
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'base.middleware.AdminRedirectMiddleware',
+    'base.middleware.AdminRedirectMiddleware',       # Your custom middleware, if any
 ]
 
 ROOT_URLCONF = 'portfolio.urls'
@@ -47,7 +52,7 @@ ROOT_URLCONF = 'portfolio.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [],  # You can add template directories here
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -62,17 +67,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'portfolio.wsgi.application'
 
-# Database Configuration (Using Render's DATABASE_URL)
+# Database configuration: Use DATABASE_URL from Render's environment variables
 DATABASES = {
     'default': env.db('DATABASE_URL')
 }
 
+
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',},
 ]
 
 # Internationalization
@@ -81,17 +87,19 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static & Media files (for Render deployment)
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # Collect static files here for production
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Email Configuration
+# Email configuration (Using Gmail SMTP as an example)
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -99,8 +107,16 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
-# CORS Configuration
+# CORS configuration (update with your frontend domain if needed)
 CORS_ALLOWED_ORIGINS = [
     "https://your-frontend-domain.com",  # Replace with your frontend URL
 ]
 CORS_ALLOW_CREDENTIALS = True
+if DEBUG:
+    DATABASES = {
+        'default': env.db('DATABASE_URL_LOCAL')
+    }
+else:
+    DATABASES = {
+        'default': env.db('DATABASE_URL')
+    }
