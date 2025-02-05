@@ -13,9 +13,13 @@ ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = ['https://labas-lh8j.onrender.com']
 
 # Database configuration (using DATABASE_URL from .env)
+import os
+import dj_database_url
+
 DATABASES = {
-    'default': env.db('DATABASE_URL')
+    'default': dj_database_url.config(default=os.getenv("postgresql://laba_developers_user:DMiRoeWwUkXDqdLIeCQy7BXUdUTwDLpd@dpg-cu8coat2ng1s73ej47ug-a/laba_developers"))
 }
+
 
 # ... rest of your settings (static files, email, etc.) ...
 
