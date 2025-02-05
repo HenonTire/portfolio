@@ -12,13 +12,7 @@ DEBUG = env.bool('DEBUG', default=False)
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = ['https://labas-lh8j.onrender.com']
 
-# Database configuration (using DATABASE_URL from .env)
-import os
-import dj_database_url
-
-DATABASES = {
-    'default': dj_database_url.config(default=os.getenv("postgresql://laba_developers_user:DMiRoeWwUkXDqdLIeCQy7BXUdUTwDLpd@dpg-cu8coat2ng1s73ej47ug-a/laba_developers"))
-}
+DATABASES = {}
 
 
 # ... rest of your settings (static files, email, etc.) ...
@@ -69,10 +63,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'portfolio.wsgi.application'
 
-# Database configuration: Use DATABASE_URL from Render's environment variables
-DATABASES = {
-    'default': env.db('DATABASE_URL')
-}
 
 
 # Password validation
@@ -114,11 +104,4 @@ CORS_ALLOWED_ORIGINS = [
     "https://your-frontend-domain.com",  # Replace with your frontend URL
 ]
 CORS_ALLOW_CREDENTIALS = True
-if DEBUG:
-    DATABASES = {
-        'default': env.db('DATABASE_URL_LOCAL')
-    }
-else:
-    DATABASES = {
-        'default': env.db('DATABASE_URL')
-    }
+
